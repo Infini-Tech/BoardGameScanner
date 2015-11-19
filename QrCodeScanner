@@ -3,6 +3,8 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class QrCodeScanner : MonoBehaviour {
+	//myDebug is her to help figure out where the problems are while testing on my mobile device.
+
 	private WebcamWrapper 
 		myWrapper;
 
