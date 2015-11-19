@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class QrCodeScanner : MonoBehaviour {
-	//myDebug is her to help figure out where the problems are while testing on my mobile device.
+	//Remove Debug Info
 
 	private WebcamWrapper 
 		myWrapper;
@@ -65,12 +65,22 @@ public class QrCodeScanner : MonoBehaviour {
 
 			if(scan != null){
 				myDebug.text = "Analyze Scan";
-				ZXing.Result scanResult = QrCodeWrapper.DecodeImage(scan);
-				string result = scanResult.Text;
-				if(result != null){
-					myDebug.text = "Scan Found";
-					myContent = result;
-					hasFound = true;
+				try{
+					ZXing.Result scanResult = QrCodeWrapper.DecodeImage(scan);
+					myText.text = "Scan Not Null";
+					if(scanResult != null){
+						myText.text = "Scan Result Not Null";
+						string result = scanResult.Text;
+						if(result != null){
+							myText.text = "Result Not Null";
+							myContent = result;
+							hasFound = true;
+						}
+					}
+				}
+				catch(System.Exception e){
+					myDebug.text = e.Message;
+					//myText.text = e.Message;
 				}
 			}
 			yield return new WaitForSeconds(ScanDelay);
