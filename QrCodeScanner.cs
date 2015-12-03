@@ -71,7 +71,7 @@ public class QrCodeScanner : MonoBehaviour {
 		myText.text = myContent;
 
 		if (IoWrapper.IsUrl (myContent)) {
-			yield return StartCoroutine (IoWrapper.AttemptAndroidUrl (myContent));//,myDebug));
+			yield return StartCoroutine (IoWrapper.AttemptUrl (myContent,true));
 		}
 		isScanning = false;
 		yield return null;
