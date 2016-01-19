@@ -4,6 +4,16 @@
 #include <time.h>       /* time */
 #include <vector>
 #include <cstdlib>
+#include "mysql_connection.h"
+#include <cppconn/exception.h>
+#include <cppconn/resultset.h>
+$include <cppconn/statement.h>
+
+//Definately could be more secure, but for now, we'll just resort to a readonly use which can only access the tables neccessary
+#define READONLY_USER = "???"
+#define DATABASE = "???"
+#define READONLY_PASSWORD = "???"
+#define SERVER_HOST = "???"
 
 using namespace std;
 ///prototypes
@@ -105,31 +115,31 @@ void searchGames()
 
     do
     {
-    if (gameList[x] == userGame)
-    {
-        system("CLS");
-        cout << "" << endl;
-        cout << gameList[x] << " is located on shelf " << gameLocation[x] <<endl;
-        j = 1;
-        cout << "" << endl;
-        cout << "" << endl;
-        cout << "Would you like to see the games stats(1-Yes, 2-No)? " ;
-        cin >> userGameStats;
-
-
-        if(userGameStats == 1)
-        {
-            cout << "" << endl;
-            cout << "Minimum Players: " << gameMinPlayer[x] << endl;
-        }
-        if(userGameStats == 2)
-        {
-            cout << "" << endl;
-            cout << "Proceed to Check-out to play this game" << endl;
-        }
-    }
-
-    x++;
+      if (gameList[x] == userGame)
+      {
+          system("CLS");
+          cout << "" << endl;
+          cout << gameList[x] << " is located on shelf " << gameLocation[x] <<endl;
+          j = 1;
+          cout << "" << endl;
+          cout << "" << endl;
+          cout << "Would you like to see the games stats(1-Yes, 2-No)? " ;
+          cin >> userGameStats;
+  
+  
+          if(userGameStats == 1)
+          {
+              cout << "" << endl;
+              cout << "Minimum Players: " << gameMinPlayer[x] << endl;
+          }
+          if(userGameStats == 2)
+          {
+              cout << "" << endl;
+              cout << "Proceed to Check-out to play this game" << endl;
+          }
+      }
+  
+      x++;
     }while ( y == "Hi" && x < GAME_NUM);
 
     if (j == 0)
@@ -144,7 +154,7 @@ void findGames()
     system("CLS");
     //These do nothing at the moment.
     //Cache these values. (store in variables)
-    typeGame();
+    int typeOfGame = typeGame();
     int minPlay = minPlayer();
     int maxPlay = maxPlayer();
 
@@ -170,6 +180,21 @@ void findGames()
     //return array, use out to return counter
     
 }
+void connectoToDatabase(){
+  try {
+    //We put our connection code here, as for what is neccessary; I'm not sure yet.
+    
+  } catch (sql::SQLException &e) {
+    cout << "# ERR: SQLException in " << __FILE__;
+    cout << "(" << __FUNCTION__ << ") on line " << __LINE__ << endl;
+    cout << "# ERR: " << e.what();
+    cout << " (MySQL error code: " << e.getErrorCode();
+    cout << ", SQLState: " << e.getSQLState() << " )" << endl;
+    
+    return EXIT_FAILURE;
+  }
+}
+
 ///sorts through the games
 void browseGames()
 {
