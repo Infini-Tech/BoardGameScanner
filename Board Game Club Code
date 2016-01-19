@@ -1,0 +1,302 @@
+#include <iostream>
+#include<string.h>
+#include <stdlib.h>     /* srand, rand */
+#include <time.h>       /* time */
+#include <vector>
+#include <cstdlib>
+
+using namespace std;
+///prototypes
+//Not that you need to, but divinding this into a header and cpp file would be nice...
+//however it would then need to be defined within a class
+void searchGames();
+void findGames();
+double typeGame();
+double minPlayer();
+double maxPlayer();
+double length();
+string difficultyLevel();
+void browseGames();
+void randomGames();
+int redo;
+void gameMatcher();
+
+//Vectors would eliminate the need for this.
+const int GAME_NUM = 34;
+///Game test array
+
+//Create a structure which can be used to define the Games instead.
+//QR_Codes_V1 only requires shelf, minPlayers, and maxPlayers as ints, 
+//and 5 strings; name, rating, type, length (or minutes), anddifficulty.
+
+
+string gameList[GAME_NUM] = {"Panzer General", "Panzer General", "Tactics", "Hammer of the Scots", "Axis & Allies",
+                            "Attack", "Liberte", "Heads of State", "Imperial", "Battle Cry", "Battle Cry", "Battle Cry",
+                            "Memoir '44", "Memoir '44", "King of Tokyo", "King of Tokyo", "King of Tokyo: Halloween",
+                            "King of Tokyo: Power Up", "Pirate's Cove", "Rampage", "Rampage", "Diplomacy",
+                            "Last Night on Earth", "Last Night on Earth: Growing Hunger", "A Touch of Evil", "Cutthroat Caverns",
+                            "Cutthroat Caverns: Expansion", "Forbidden Island", "Betrayal of the House on the Hill",
+                            "Betrayal of the House on the Hill", "Shadow Hunters", "Shadow Hunters", "Battle Star Galactica",
+                            "Defenders of the Realm"};
+
+///game test locactions
+int gameLocation[GAME_NUM] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                              2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2};
+///game minimum player
+int gameMinPlayer[GAME_NUM] = {1, 1, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2,
+                               2, 2, 2, 3, 3, 2, 3, 3, 2, 2, 2, 1};
+///main
+int main()
+{
+    int userResponse;
+    cout << "Welcome to Board Game Club!" << endl;
+    cout << "" << endl;
+    cout << "" << endl;
+    cout << "You can: "<< endl;
+    cout << "1. Search for games" << endl;
+    cout << "2. Find a game" << endl;
+    cout << "3. Browse our selection" << endl;
+    cout << "4. Choose a Random game \n" << endl;
+    cin >> userResponse;
+    cout << "" << endl;
+    cout << "" << endl;
+
+    if (userResponse == 1)
+    {
+        searchGames();
+    }
+    else if (userResponse == 2)
+    {
+        findGames();
+    }
+    else if (userResponse == 3)
+    {
+        browseGames();
+    }
+    else if (userResponse == 4)
+    {
+        randomGames();
+    }
+    else
+    {
+        cout << "Sorry that is not an option available" << endl;
+    }
+
+}
+///searches array for games
+void searchGames()
+{ 
+  //boolean which will show game info
+    int userGameStats;
+    //clears the screen
+    system("CLS");
+    int x = 0;
+    bool j = 0;
+    string userGame="";
+    string y = "Hi";
+
+
+    cout << "" << endl;
+    cout << "Enter in your Game?" << endl;
+    cin.ignore();
+    getline(cin, userGame,'\n');
+    cout << "" << endl;
+    cout << "" << endl;
+
+    do
+    {
+    if (gameList[x] == userGame)
+    {
+        system("CLS");
+        cout << "" << endl;
+        cout << gameList[x] << " is located on shelf " << gameLocation[x] <<endl;
+        j = 1;
+        cout << "" << endl;
+        cout << "" << endl;
+        cout << "Would you like to see the games stats(1-Yes, 2-No)? " ;
+        cin >> userGameStats;
+
+
+        if(userGameStats == 1)
+        {
+            cout << "" << endl;
+            cout << "Minimum Players: " << gameMinPlayer[x] << endl;
+        }
+        if(userGameStats == 2)
+        {
+            cout << "" << endl;
+            cout << "Proceed to Check-out to play this game" << endl;
+        }
+    }
+
+    x++;
+    }while ( y == "Hi" && x < GAME_NUM);
+
+    if (j == 0)
+    {
+        cout << "Sorry we couldn't find your game" << endl;
+    }
+
+}
+///finds all the types of games
+void findGames()
+{
+    system("CLS");
+    //These do nothing at the moment.
+    //Cache these values. (store in variables)
+    typeGame();
+    int minPlay = minPlayer();
+    int maxPlay = maxPlayer();
+
+    if(minPlay > maxPlay)
+    {
+        cout << "Sorry. Your number for minimum players exceeded that of the your maximum player" << endl;
+        cout << "Re-enter number:" << endl;
+        cout << "" << endl;
+        minPlay = minPlayer();
+        maxPlay = maxPlayer();
+    }
+    int time = length();
+    string difLevel = difficultyLevel();
+    
+    //Define Vector (results) OR Define array (using maximum array size), and a counter
+    //iterate over list / array / vector
+      //If using a structure, compare structure values fetched from array to results gotten from above functions
+      //If data matches, add to defined vector (results)
+      //added value should either be the index, or the structure.
+      //incriment counter (if using an array)
+        //I personally would lean to te index, so that any modifications to the data are persisitant.
+    //return vector of results OR
+    //return array, use out to return counter
+    
+}
+///sorts through the games
+void browseGames()
+{
+    system("CLS");
+
+    cout << "Our games are: \n" << endl;
+
+    for(int b = 0; b < GAME_NUM; b++)
+    {
+        cout << b+1 << ". " << gameList[b] << endl;
+    }
+}
+///pulls a random game
+void randomGames()
+{
+    system("CLS");
+
+    // Seed the RNG once, at the start of the program
+    srand( time( NULL ) );
+
+    int num = (rand() % GAME_NUM) + 1;
+
+    cout << "" << endl;
+    cout << "The game that was randomly chosen was " << gameList[num] << endl;
+    cout << "" << endl;
+    cout << "If you want a new game choose 1 or else press 0 to exit: " << endl;
+    cin>> redo;
+
+    if(redo == 1)
+    {
+        system("CLS");
+
+        // Seed the RNG once, at the start of the program
+        srand( time( NULL ) );
+
+        int num = (rand() % GAME_NUM) + 1;
+
+        cout << "" << endl;
+        cout << "The new game that was randomly chosen was " << gameList[num] << endl;
+    }
+}
+///returns what type of game the user is looking for
+
+void gameMatcher()
+{
+    double minP = minPlayer();
+    double maxP = maxPlayer();
+
+    for(int y = 0; y <= GAME_NUM; y++)
+    {
+        if (gameMinPlayer[y] == minP)
+        {
+            ///Create the new array list for the games that match the min player amount
+        }
+    }
+}
+
+double typeGame()
+{
+    int userTypeGame;
+    cout << "What type of game do you want?(Select Number)" << endl;
+    cout << "1. War/Battle" << endl;
+    cout << "2. Cooperative" << endl;
+    cout << "3. Abstract/Math" << endl;
+    cout << "4. Strategy" << endl;
+    cout << "5. Classic" << endl;
+    cout << "6. Party\n" << endl;
+    cin >> userTypeGame;
+    cout << "" << endl;
+    cout << "" << endl;
+
+    return userTypeGame;
+}
+///returns min players of game
+double minPlayer()
+{
+    int userMinPlayer;
+    cout << "What is the minimum amount of players do you want? ";
+    cin >> userMinPlayer;
+    cout << "" << endl;
+    cout << "" << endl;
+
+    return userMinPlayer;
+}
+///returns max players of game
+double maxPlayer()
+{
+    int userMaxPlayer;
+    cout << "What is the maximum amount of players do you want? ";
+    cin >> userMaxPlayer;
+    cout << "" << endl;
+    cout << "" << endl;
+
+    return userMaxPlayer;
+}
+///returns length of time to play game
+double length()
+{
+    int userLength;
+    cout << "What is the amount of time do you want to play to finish the game? ";
+    cin >> userLength;
+    cout << "" << endl;
+    cout << "" << endl;
+
+    return userLength;
+}
+///finds level
+string difficultyLevel()
+{
+    string userDifficultyLevel;
+    cout << "What is the difficulty level do you want for the game (Hard, Medium, Easy)? " << endl;
+    cin >> userDifficultyLevel;
+    cout << "" << endl;
+    cout << "" << endl;
+
+    return userDifficultyLevel;
+}
+//create a fetch string method, which can accept a message, if you wish to only accept certain input, 
+//the calling function can sift out whether the returned input is good or bad
+//This also means you only have to use cout / cin a few times, as apposed to every time you create a new method to fetch data
+
+
+///Create a new array list every time a selection is made so that the search time is cut down
+//Array lists are called vectors in C++
+//Additionally, use structures, again, because parrallel vectors are worse than parrallel arrays
+
+
+///Search by number for the search selection and the Browse games
+
+///? or not available in the missing data in the arrays do not use the vertex function for arrays
