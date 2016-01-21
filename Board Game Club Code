@@ -17,7 +17,7 @@ $include <cppconn/statement.h>
 
 using namespace std;
 ///prototypes
-//Not that you need to, but divinding this into a header and cpp file would be nice...
+//Not that you need to, but dividing this into a header and cpp file would be nice...
 //however it would then need to be defined within a class
 void searchGames();
 void findGames();
@@ -183,7 +183,20 @@ void findGames()
 void connectoToDatabase(){
   try {
     //We put our connection code here, as for what is neccessary; I'm not sure yet.
+    MySQL_Driver *driver;
+    Connection *con;
     
+    driver = MySQL_Driver::get_mysql_driver_instance();
+    con = driver->connect(SERVER_HOST, READONLY_USER, READONLY_PASSWORD);
+    Statement *stmt = con-createStatement();
+    stmt->execute("USE " DATABASE);
+    ResultSet *res = stmt->executeQuery("SELECT ..."); // What is this method supposed to perform.
+    
+    //Do stuff?
+    
+    delete res;
+    delete stmt;
+    delete con;
   } catch (sql::SQLException &e) {
     cout << "# ERR: SQLException in " << __FILE__;
     cout << "(" << __FUNCTION__ << ") on line " << __LINE__ << endl;
@@ -191,7 +204,6 @@ void connectoToDatabase(){
     cout << " (MySQL error code: " << e.getErrorCode();
     cout << ", SQLState: " << e.getSQLState() << " )" << endl;
     
-    return EXIT_FAILURE;
   }
 }
 
